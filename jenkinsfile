@@ -17,7 +17,7 @@ pipeline{
         }
  stage('SonarQube analysis') {
             steps{
-               withSonarQubeEnv(installationName: 'sonarqube-9.9')
+               withSonarQubeEnv(credentialsId: 'sqp_05caf82b23f87ba5280eb47b9987f06bc781e136', installationName: 'sonarqube-9.9')
                 // withSonarQubeEnv(sonarqube-9.9) { // You can override the credential to be used
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184:sonar'
                //  sh "mvn sonar:sonar"
