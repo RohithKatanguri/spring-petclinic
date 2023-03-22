@@ -2,7 +2,7 @@ pipeline{
     //Directives
     agent any
     tools {
-        maven 'maven-3.2.1'
+        maven 'maven'
     }
     
     
@@ -15,7 +15,12 @@ pipeline{
                 sh 'mvn clean install package'
             }
         }
-
+stage('SonarQube analysis') {
+steps{
+    withSonarQubeEnv(sonarqube-9.9) { // You can override the credential to be used
+      sh "mvn sonar:sonar"
+}
+    }
         // Stage2 : Testing
         stage ('Test'){
             steps {
