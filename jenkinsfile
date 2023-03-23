@@ -17,10 +17,11 @@ pipeline{
         }
  stage('SonarQube analysis') {
             steps{
-                 withSonarQubeEnv('sonarqube-9.9') 
+                 withSonarQubeEnv('sonarqube-9.9'){ 
                     // Optionally use a Maven environment you've configured already
                     
-                        sh 'mvn clean install  sonar:sonar  -Dsonar.login=sqp_05caf82b23f87ba5280eb47b9987f06bc781e136'
+                        sh 'mvn clean package  sonar:sonar '
+}
 
 }
 }
