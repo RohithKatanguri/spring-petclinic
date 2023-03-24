@@ -31,7 +31,7 @@ pipeline{
 }
 stage('Publish to nexus') {
             steps{
-nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic', classifier: '', file: '/var/lib/jenkins/workspace/PetclinicProject24/target/spring-petclinic-3.0.0-SNAPSHOT.jar', type: 'jar']], credentialsId: 'e2cae18b-a5e6-4768-8425-5c6dcc642aad', groupId: 'org.springframework.samples', nexusUrl:'https://65.2.132.141:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'petclinic-Rohith-snapshot', version: '3.0.0-SNAPSHOT'
+nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic', classifier: '', file: '/var/lib/jenkins/workspace/PetclinicProject24/target/spring-petclinic-3.0.0-SNAPSHOT.jar', type: 'jar']], credentialsId: 'e2cae18b-a5e6-4768-8425-5c6dcc642aad', groupId: 'org.springframework.samples', nexusUrl:'http://65.2.132.141:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'petclinic-Rohith-snapshot', version: '3.0.0-SNAPSHOT'
        
 }
 
