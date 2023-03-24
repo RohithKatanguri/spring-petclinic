@@ -24,7 +24,7 @@ pipeline{
                 //  sh 'mvn clean verify sonar:sonar \
  //  -Dsonar.projectKey=sonarqube-petclinic \
  //  -Dsonar.login=sqp_df2060cd23a05a21c638fdde127cac4b146a1741'
-}
+//}
 
 }
 }
