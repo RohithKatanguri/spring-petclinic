@@ -28,6 +28,13 @@
     <spring-format.version>0.0.38</spring-format.version>
 
   </properties>
+  
+  <distributionManagement>
+   <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>http://65.0.101.0:8081/repository/petclinic-Rohith-snapshot/</url>
+   </snapshotRepository>
+</distributionManagement>
 
   <dependencies>
     <!-- Spring and Spring Boot dependencies -->
