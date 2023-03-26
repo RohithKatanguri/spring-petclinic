@@ -31,7 +31,7 @@ pipeline{
 }
 stage('Publish to nexus') {
             steps{
-               sh 'mvn deploy'
+               sh 'mvn -gs /usr/share/maven/conf/settings.xml clean  deploy'
        
 }
 
