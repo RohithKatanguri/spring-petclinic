@@ -4,8 +4,11 @@ pipeline{
     tools {
         maven 'maven'
     }
-   
     
+    environment{
+   NEXUSIP='65.0.101.0'
+   NEXUSPORT='8081'
+    }
     
     stages {
         // Specify various stage with in stages
@@ -31,7 +34,7 @@ pipeline{
 }
 stage('Publish to nexus') {
             steps{
-               sh 'mvn clean  deploy -Dmaven.test.skip=true '
+              nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic', classifier: '', file: 'target/spring-petclinic-3.0.0-SNAPSHOT.war', type: 'war']], credentialsId: 'fb7d51a5-450b-48b0-9d2e-d485a59436ef', groupId: 'org.springframework.samples', nexusUrl: , nexusVersion: 'nexusUrl: "${NEXUSIP}:${NEXUSPORT},nexus3', protocol: 'http', repository: 'petclinic-Rohith-snapshot', version: '3.0.0-SNAPSHOT'
        
 }
 
