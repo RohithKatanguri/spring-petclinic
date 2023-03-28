@@ -8,8 +8,8 @@ pipeline{
     environment{
    NEXUSIP='65.0.101.0'
    NEXUSPORT='8081'
-  // registryCredential = ''
-  // registry=''
+   registryCredential = ''
+   registry=''
   // dockerImage = ''
     }
     
