@@ -8,7 +8,7 @@ pipeline{
     environment{
    NEXUSIP='65.0.101.0'
    NEXUSPORT='8081'
-   registryCredential = 'RajnaiVelakacharla'
+   registryCredential = ''
    registry=''
    dockerImage = ''
     }
@@ -47,9 +47,10 @@ stage('Publish to nexus') {
 stage('Buliding the image') {
 
 steps{
-script {
-dockerImage = docker.build registry + ":$BUILD_NUMBER"
-}
+      echo ' building image ....'
+//script {
+//dockerImage = docker.build registry + ":$BUILD_NUMBER"
+//}
 
 }
 }
