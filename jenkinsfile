@@ -8,7 +8,7 @@ pipeline{
     environment{
    NEXUSIP='65.0.101.0'
    NEXUSPORT='8081'
-   registryCredential = 'AKIA5JBNSTXBJ4DB76W4 (RohithKatanguri)'
+   registryCredential = 'RohithKatanguri'
    registry='912776142274.dkr.ecr.us-east-1.amazonaws.com/petclinicproject'
    dockerImage = ''
     }
