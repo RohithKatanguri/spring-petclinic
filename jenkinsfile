@@ -56,7 +56,7 @@ script{
 stage('Deploy our image in ECR') {
 steps{
 script {
-docker.withRegistry("http://" + registry, + registryCredential ) {
+docker.withRegistry("http://" + registry,"ecr:us-east-1:" + registryCredential ) {
 dockerImage.push()
 }
 }
