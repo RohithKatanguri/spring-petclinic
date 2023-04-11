@@ -59,7 +59,7 @@ stage('Build docker image') {
 steps{
 script {
 def petclinicimage=docker.build('rohith0718/petclinic',"./docker")
-docker.withRegistry("http://registry.hub.docker.com",'rohith0718' ) {
+docker.withRegistry("https://registry.hub.docker.com",'rohith0718' ) {
 petclinicimage.push("${env.BUILD_NUMBER}")
 }
 }
