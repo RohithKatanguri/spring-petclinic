@@ -48,7 +48,7 @@ stage('copy artifact') {
 
 steps{
    sh 'pwd'
-   sh 'CP -r target/*.jar docker'
+   sh 'cp -r target/*.jar docker'
 //script{
  // dockerImage = docker.build registry + ":$BUILD_NUMBER"
     // }
