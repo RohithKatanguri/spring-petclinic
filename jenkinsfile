@@ -93,6 +93,7 @@ petclinicimage.push("${env.BUILD_NUMBER}")
                   sshagent(['ssh-key-id1']) {
                       sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker pull ${DOCKER_HUB_REPO}"
                   }
+                  }
                }
            }
        }
