@@ -97,8 +97,18 @@ petclinicimage.push("${env.BUILD_NUMBER}")
        stage('Deploy to EC2') {
            steps {
                script {
-                   sshagent(['SSH_KEY']) {
-                       sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
+                   // sshagent(['SSH_KEY']) {
+                     //  sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
+                     
+                     script {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-id1', keyFileVariable: 'SSH_PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'SSH_USERNAME')]) {
+                        sshagent(['ssh-key-id1']) {
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker pull ${DOCKERHUB_USERNAME}/${IMAGE_NAME}"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker stop ${IMAGE_NAME} || true"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker rm ${IMAGE_NAME} || true"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker run -d --name ${IMAGE_NAME} -p 80:80 ${DOCKERHUB_USERNAME}/${IMAGE_NAME}"
+                        }
                    }
                }
            }
