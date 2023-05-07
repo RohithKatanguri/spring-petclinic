@@ -14,7 +14,7 @@ pipeline{
    dockerImage = ''
    IMAGE_NAME = 'petclinic'
    SSH_KEY = credentials('ssh-key-id1')
-   SSH_PRIVATE_KEY = credentials('ssh-key-id1').privateKey
+   // SSH_PRIVATE_KEY = credentials('ssh-key-id1').privateKey
    DOCKER_COMPOSE_FILE = 'docker-compose-file.yml'
    EC2_INSTANCE = '172.31.25.234'
    SSH_USER = 'ec2-user'
@@ -89,7 +89,7 @@ petclinicimage.push("${env.BUILD_NUMBER}")
            steps {
             
                script {
-               withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-id1', keyFileVariable: 'SSH_PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'SSH_USERNAME')]) {
+               withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-id1', passphraseVariable: '')]) {
                        
                   sshagent(['ssh-key-id1']) {
                       sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker pull ${DOCKER_HUB_REPO}"
