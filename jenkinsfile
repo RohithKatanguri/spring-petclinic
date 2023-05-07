@@ -15,8 +15,8 @@ pipeline{
    IMAGE_NAME = 'petclinic'
    SSH_KEY = credentials('ssh-key-id')
    DOCKER_COMPOSE_FILE = 'docker-compose-file.yml'
-   EC2_INSTANCE_IP = '172.31.25.234'
-   EC2_INSTANCE_USERNAME = 'ec2-user'
+   EC2_INSTANCE = '172.31.25.234'
+   SSH_USER = 'ec2-user'
     }
     
     stages {
