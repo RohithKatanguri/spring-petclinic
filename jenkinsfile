@@ -102,6 +102,6 @@ petclinicimage.push("${env.BUILD_NUMBER}")
                }
            }
        }
-
+}
 
 
