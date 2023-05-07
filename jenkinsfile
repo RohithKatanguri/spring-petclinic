@@ -11,6 +11,11 @@ pipeline{
    registryCredential = 'RohithKatanguri'
    registry='912776142274.dkr.ecr.us-east-1.amazonaws.com/petclinicproject'
    dockerImage = ''
+   IMAGE_NAME = 'petclinic'
+   SSH_KEY = credentials('ssh-key-id')
+   DOCKER_COMPOSE_FILE = 'path-to-docker-compose-file'
+   EC2_INSTANCE_IP = '172.31.25.234'
+   EC2_INSTANCE_USERNAME = 'ec2-user'
     }
     
     stages {
@@ -76,6 +81,21 @@ petclinicimage.push("${env.BUILD_NUMBER}")
 
             }
         }
+        
+        stage('Deploy to EC2 Instance') {
+            steps {
+                script {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-credentials-id', keyFileVariable: 'SSH_PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'SSH_USERNAME')]) {
+                        sshagent(['ssh-credentials-id']) {
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker pull ${DOCKERHUB_USERNAME}/${IMAGE_NAME}"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker stop ${IMAGE_NAME} || true"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker rm ${IMAGE_NAME} || true"
+                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker run -d --name ${IMAGE_NAME} -p 80:80 ${DOCKERHUB_USERNAME}/${IMAGE_NAME}"
+                        }
+                    }
+                }
+            }
 }
 }
 
