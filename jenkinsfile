@@ -83,7 +83,7 @@ petclinicimage.push("${env.BUILD_NUMBER}")
             }
         }
         
-         stages {
+         
        stage('Pull Docker image') {
            steps {
                script {
@@ -93,7 +93,7 @@ petclinicimage.push("${env.BUILD_NUMBER}")
                }
            }
        }
-       }
+       
        stage('Deploy to EC2') {
            steps {
                script {
