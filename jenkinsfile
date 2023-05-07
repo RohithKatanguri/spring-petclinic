@@ -87,7 +87,7 @@ petclinicimage.push("${env.BUILD_NUMBER}")
        stage('Pull Docker image') {
            steps {
                script {
-                   sshagent(credentials: [SSH_KEY]) {
+                   sshagent(credentials: ${SSH_KEY} ) {
                        sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker pull ${DOCKER_HUB_REPO}"
                    }
                }
@@ -97,7 +97,7 @@ petclinicimage.push("${env.BUILD_NUMBER}")
        stage('Deploy to EC2') {
            steps {
                script {
-                   sshagent(credentials: [SSH_KEY]) {
+                   sshagent(credentials: ${SSH_KEY}) {
                        sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
                    }
                }
