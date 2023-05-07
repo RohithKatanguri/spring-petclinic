@@ -10,10 +10,11 @@ pipeline{
    NEXUSPORT='8081'
    registryCredential = 'RohithKatanguri'
    registry='912776142274.dkr.ecr.us-east-1.amazonaws.com/petclinicproject'
+   DOCKER_HUB_REPO = "rohith0718/petclinic"
    dockerImage = ''
    IMAGE_NAME = 'petclinic'
    SSH_KEY = credentials('ssh-key-id')
-   DOCKER_COMPOSE_FILE = 'path-to-docker-compose-file'
+   DOCKER_COMPOSE_FILE = 'docker-compose-file.yml'
    EC2_INSTANCE_IP = '172.31.25.234'
    EC2_INSTANCE_USERNAME = 'ec2-user'
     }
@@ -82,20 +83,25 @@ petclinicimage.push("${env.BUILD_NUMBER}")
             }
         }
         
-        stage('Deploy to EC2 Instance') {
-            steps {
-                script {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-credentials-id', keyFileVariable: 'SSH_PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'SSH_USERNAME')]) {
-                        sshagent(['ssh-credentials-id']) {
-                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
-                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker pull ${DOCKERHUB_USERNAME}/${IMAGE_NAME}"
-                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker stop ${IMAGE_NAME} || true"
-                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker rm ${IMAGE_NAME} || true"
-                            sh "ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${SSH_USERNAME}@${EC2_INSTANCE_IP} docker run -d --name ${IMAGE_NAME} -p 80:80 ${DOCKERHUB_USERNAME}/${IMAGE_NAME}"
-                        }
-                    }
-                }
-            }
+         stages {
+       stage('Pull Docker image') {
+           steps {
+               script {
+                   sshagent(credentials: [SSH_KEY]) {
+                       sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker pull ${DOCKER_HUB_REPO}"
+                   }
+               }
+           }
+       }
+       stage('Deploy to EC2') {
+           steps {
+               script {
+                   sshagent(credentials: [SSH_KEY]) {
+                       sh "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${EC2_INSTANCE} docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
+                   }
+               }
+           }
+       }
 }
 }
 
