@@ -13,7 +13,7 @@ pipeline{
    DOCKER_HUB_REPO = "rohith0718/petclinic"
    dockerImage = ''
    IMAGE_NAME = 'petclinic'
-   SSH_KEY = 'ssh-key-id'
+   SSH_KEY = credentials('ssh-key-id')
    DOCKER_COMPOSE_FILE = 'docker-compose-file.yml'
    EC2_INSTANCE = '172.31.25.234'
    SSH_USER = 'ec2-user'
