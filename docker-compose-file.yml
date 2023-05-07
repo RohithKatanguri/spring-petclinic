@@ -1,7 +1,7 @@
 version: '3'
 services:
   my-service:
-    image: your-docker-hub-repo-name/image-name
+    image: rohith0718/petclinic
     restart: always
     ports:
       - "80:80"
