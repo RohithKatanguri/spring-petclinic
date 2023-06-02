@@ -21,10 +21,10 @@ pipeline{
     }
     
     stages {
-        // Specify various stage with in stages rohith
+        // Specify various stage with in stages 
 
         // stage 1. Build
-        stage ('Build maven project rohith'){
+        stage ('Build maven project '){
             steps {
                 sh 'mvn clean install package'
             }
